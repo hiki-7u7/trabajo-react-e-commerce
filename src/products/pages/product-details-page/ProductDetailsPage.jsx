@@ -1,27 +1,37 @@
-import { useMemo, useState } from 'react';
+import { useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { products } from '../../../data/products';
+import { getProductById } from '../../../data/actions';
+import { CartContext } from '../../../cart'
+import { useCounter } from '../../../common';
 
 import productDetailsStyles from './product.details.module.css'
 
 
 export function ProductDetailsPage() {
 
-  const [count, setCount] = useState(0);
+  const { counter, decrement, increment } = useCounter();
+  const { addItem } = useContext( CartContext );
 
   const navigate = useNavigate();
   const params = useParams();
-  const product = useMemo(() => products.find( e => e.id === +params.id ), [params.id]);
+  const product = getProductById(params.id);
 
-  const increment = () => {
-    setCount(Math.min(count + 1, product.inStock));
+  const addProductCart = (item) => {
+
+    if(counter <= 0) {
+      alert('select a quantity')
+      return;
+    }
+
+    item.quantity = counter;
+    addItem(item);
+
   };
 
-  const decrement = () => {
-    setCount(Math.max(count - 1, 0));
+  const handleIncrement = (max) => {
+    increment(max)
   };
-
 
   return (
     <div className={productDetailsStyles.container}>
@@ -33,18 +43,20 @@ export function ProductDetailsPage() {
 
         <div className={productDetailsStyles.info}>
           <p>{product.name}</p>
-          <p>{product.price}</p>
+          <p>${parseFloat(product.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
           <p className={productDetailsStyles.description}>{product.description}</p>
         </div>
 
         <div className={productDetailsStyles.actions}>
           <div>
+
             <div className={productDetailsStyles.counter}>
               <button onClick={ decrement } >-</button>
-              <div><span>{count}</span></div>
-              <button onClick={ increment } >+</button>
+              <div><span>{counter}</span></div>
+              <button onClick={ () => handleIncrement(product.inStock) } >+</button>
             </div>
-            <button className={productDetailsStyles['add-cart']}>Agregar al carrito</button>
+
+            <button className={productDetailsStyles['add-cart']} onClick={ () => addProductCart(product)} >Agregar al carrito</button>
           </div>
           <button onClick={()=> navigate(-1)} className={productDetailsStyles['btn-back']}>Volver</button>
         </div>

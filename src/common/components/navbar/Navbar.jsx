@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom'
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom'
+import { FaShoppingCart } from "react-icons/fa";
 
 import { Button } from '../button';
+import { CartContext, CartWidget } from '../../../cart'
 
 import navbarStyles from './navbar.module.css';
 
 
-//? Si quieres añadir otro link aslo aqui
 const paths = [
   {
     path: '/',
@@ -23,28 +25,46 @@ const paths = [
     path: '/category/3',
     name: 'Libros'
   },
+  {
+    path: '/cart',
+    name: 'Carrito'
+  },
 ]
 
 export const Navbar = () => {
+  
+  const { showCartWidget, toggleShowCartWidget, items } = useContext(CartContext);
+
+  const itemsNum = items.length <= 0 ? undefined : `${items.length}`;
+
 
   return (
-    <div className={navbarStyles.container}>
-        <div className={navbarStyles.logo}>
-          <Link to={'/'}>
-            <img src="/react.svg" alt="logo" />
-            <b>Compras Z</b>
-          </Link>
-        </div>
+    <>
+      <div className={navbarStyles.container}>
+          <div className={navbarStyles.logo}>
+            <NavLink to={'/'}>
+              <img src="/react.svg" alt="logo" />
+              <b>Compras Z</b>
+            </NavLink>
+          </div>
 
-        <nav className={navbarStyles.nav}>
-          {paths.map(({path,name}) =>  (
-            <Link key={name} to={path} >{name}</Link>
-          ))}
-        </nav>
+          <nav className={navbarStyles.nav}>
+            {paths.map(({path,name}) =>  (
+              <NavLink onClick={ () => toggleShowCartWidget('close')} key={name} to={path} className={({isActive}) => isActive ? navbarStyles['link-active'] : '' }>{name}</NavLink>
+            ))}
+          </nav>
 
-        <div className={navbarStyles.login}>
-          <Button label='Login' />
-        </div>
-    </div>
+          <div className={navbarStyles.actions}>
+            <div className={navbarStyles.cart}>
+              <Button icon={<FaShoppingCart />} onClick={ () => toggleShowCartWidget('toggle')}/>
+               {itemsNum && <span>{itemsNum}</span> }
+            </div>
+            <div className={navbarStyles.login}>
+              <Button label='Login' />
+            </div>
+          </div>
+      </div>
+      { showCartWidget && <CartWidget /> }
+    </>
   )
 }
