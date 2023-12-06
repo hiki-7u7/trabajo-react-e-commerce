@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
         addItemQuantity,
         removeItem,
         removeItemQuantity,
-        resetCart,
+        setCart,
         showCartWidget,
         state,
         toggleShowCartWidget
@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
             ...state,
             addItem,
             removeItem,
-            resetCart,
+            setCart,
             showCartWidget,
             toggleShowCartWidget,
             addItemQuantity,

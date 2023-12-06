@@ -1,19 +1,41 @@
+import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Navbar } from '../../common';
+
+import { LoginForm, Modal, Navbar, UiContext } from '../../common';
+import { AuthContext } from '../../auth/context';
+
 
 import productsLayoutStyles from './products-layout.module.css';
 
-//TODO arregla eso del scroll y el padding que nose porque esta xd
 
 export const ProductsLayout = () => {
 
+  const { openModal, toggleOpenModal, categories } = useContext(UiContext);
+  const { login } = useContext(AuthContext);
+
+  const handleSubmit = async(values) => {
+    const trimmedValues = Object.keys(values).reduce((acc, key) => {
+      acc[key] = typeof values[key] === 'string' ? values[key].trim() : values[key];
+      return acc;
+    }, {});
+    const loged = await login(trimmedValues);
+    if(loged){
+      toggleOpenModal();
+    }
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar categories={categories}/>
       <div className={productsLayoutStyles['container-children']}>
         <Outlet />
       </div>
+      { openModal && (
+        <Modal>
+          <LoginForm onSubmit={handleSubmit}/>
+        </Modal>
+      )}
     </>
   )
 };

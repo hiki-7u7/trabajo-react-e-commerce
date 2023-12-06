@@ -1,10 +1,15 @@
+import { useContext } from 'react';
+
 import { Button } from '../../../common';
 import { ProductList } from '../../components';
-import { products } from '../../../data/products';
+import { ProductContext } from '../../context';
 
 import homePageStyles from './home-page.module.css';
 
 export const HomePage = () => {
+
+  const {products} = useContext(ProductContext)
+
   return (
     <div className={homePageStyles.container}>
       

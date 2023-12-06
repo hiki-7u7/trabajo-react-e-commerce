@@ -26,8 +26,7 @@ export const useCartProvider = (initialState) => {
 
   const addItem = (item) => {
 
-      const itemExist = state.items.find( i => i.id === item.id )
-      
+      const itemExist = state.items.find( i => i.id === item.id );
 
       if(!itemExist) {
           item.quantity = item.quantity ? item.quantity : 1;
@@ -74,6 +73,7 @@ export const useCartProvider = (initialState) => {
             ? `${item.quantity} units of the item "${item.name}" were added to the cart!`
             : `1 unit of the item "${item.name}" was added to the cart!`
           );
+          //* aqui
       }
 
   };
@@ -109,15 +109,16 @@ export const useCartProvider = (initialState) => {
       dispatch({type: 'update-item-quantity', payload: newItems});
   }
 
-  const resetCart = () => {
-      console.log('resetenado el cart')
+  const setCart = (value = []) => {
+    dispatch({ type: "set-cart", payload: [...value] });
+    localStorage.setItem('cart', JSON.stringify(value))
   }
 
   return {
     state,
     addItem,
     removeItem,
-    resetCart,
+    setCart,
     showCartWidget,
     toggleShowCartWidget,
     addItemQuantity,
