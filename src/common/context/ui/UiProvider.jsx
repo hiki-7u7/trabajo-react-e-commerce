@@ -3,13 +3,11 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { UiContext } from './';
-import { useNavbar } from '../../hooks';
 
 export const UiProvider = ({ children }) => {
 
     const [openSidebar, setOpenSidebar] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const {categories} = useNavbar();
 
     const toggleSidebar = () => {
         setOpenSidebar( !openSidebar )
@@ -25,7 +23,6 @@ export const UiProvider = ({ children }) => {
             toggleSidebar,
             openModal,
             toggleOpenModal,
-            categories
         }}>
             { children }
         </UiContext.Provider>

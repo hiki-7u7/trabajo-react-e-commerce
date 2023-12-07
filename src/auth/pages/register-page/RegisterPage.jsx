@@ -2,14 +2,15 @@ import { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { RegisterForm } from '../../../common/components';
+import { Loader, RegisterForm } from '../../../common';
 import { AuthContext } from '../../context';
 
 import styles from './register-page.module.css';
 
+
 export const RegisterPage = () => {
 
-  const { register } = useContext(AuthContext);
+  const { register, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate()
 
   const handleSubmit = async (values) => {
@@ -25,7 +26,11 @@ export const RegisterPage = () => {
 
 	return (
     <div className={styles.container}>
-      <RegisterForm onSubmit={handleSubmit}/>
+      {
+        isAuthenticated === "is-authenticating"
+        ? <Loader />
+        : <RegisterForm onSubmit={handleSubmit}/>
+      }
     </div>
 	);
 };

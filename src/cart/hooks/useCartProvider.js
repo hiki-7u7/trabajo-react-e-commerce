@@ -79,8 +79,10 @@ export const useCartProvider = (initialState) => {
   };
 
   const removeItem = (id) => {
-      const updatedItems = state.items.filter( i => i.id !== id );
-      dispatch({type: 'remove-item', payload: updatedItems })
+    const item = state.items.find( i => i.id === id );
+    const updatedItems = state.items.filter( i => i.id !== id );
+    dispatch({type: 'remove-item', payload: updatedItems })
+    toast.success(`"${item.name}" removed from cart`)
   }
 
   const addItemQuantity = (item) => {

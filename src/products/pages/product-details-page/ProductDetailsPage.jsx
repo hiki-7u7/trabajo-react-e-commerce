@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { CartContext } from '../../../cart';
-import { useCounter } from '../../../common';
-import { getProductById } from '../../helpers';
+import { Loader, useCounter } from '../../../common';
+import { getProductBySlug } from '../../helpers';
 
-import productDetailsStyles from './product.details.module.css'
+import styles from './product.details.module.css'
 
 
 export function ProductDetailsPage () {
@@ -18,8 +18,8 @@ export function ProductDetailsPage () {
   
 
   useEffect(()=>{
-    getProductById(params.id).then( p => setProduct(p) )
-  },[params.id])
+    getProductBySlug(params.slug).then( p => setProduct(p) )
+  },[params.slug])
 
 
   const addProductCart = (item) => {
@@ -39,36 +39,36 @@ export function ProductDetailsPage () {
   };
 
   return (
-    <div className={productDetailsStyles.container}>
-      <div className={productDetailsStyles.card}>
+    <div className={styles.container}>
+      <div className={styles.card}>
 
-        <div className={productDetailsStyles.image}>
-          <img src={product?.img} alt={product?.name} />
-        </div>
-
-        <div className={productDetailsStyles.info}>
-          <p>{product?.name}</p>
-          <p>${parseFloat(product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
-          <p className={productDetailsStyles.description}>{product?.description}</p>
-        </div>
-
-        <div className={productDetailsStyles.actions}>
-          <div>
-
-            <div className={productDetailsStyles.counter}>
-              <button onClick={ decrement } >-</button>
-              <div><span>{counter}</span></div>
-              <button onClick={ () => handleIncrement(product?.inStock) } >+</button>
+        { !product  
+          ? ( <div className={styles['box-loader']}><Loader /></div> )
+          : ( <>
+            <div className={styles.image}>
+              <img src={product?.img} alt={product?.name} />
             </div>
-
-            <button className={productDetailsStyles['add-cart']} onClick={ () => addProductCart(product)} >Agregar al carrito</button>
-          </div>
-          <button onClick={()=> navigate(-1)} className={productDetailsStyles['btn-back']}>Volver</button>
-        </div>
-
-        <div className={productDetailsStyles.footer}>
-          <b>{product?.inStock} unidades disponibles</b>
-        </div>
+            <div className={styles.info}>
+              <p>{product?.name}</p>
+              <p>${parseFloat(product?.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</p>
+              <p className={styles.description}>{product?.description}</p>
+            </div>
+            <div className={styles.actions}>
+              <div>
+                <div className={styles.counter}>
+                  <button onClick={ decrement } >-</button>
+                  <div><span>{counter}</span></div>
+                  <button onClick={ () => handleIncrement(product?.inStock) } >+</button>
+                </div>
+                <button className={styles['add-cart']} onClick={ () => addProductCart(product)} >Agregar al carrito</button>
+              </div>
+              <button onClick={()=> navigate(-1)} className={styles['btn-back']}>Volver</button>
+            </div>
+            <div className={styles.footer}>
+              <b>{product?.inStock} unidades disponibles</b>
+            </div>
+          </> )
+        }
 
       </div>
     </div>

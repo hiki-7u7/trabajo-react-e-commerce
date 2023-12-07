@@ -18,7 +18,7 @@ export const ProductItem = ({product}) => {
             <p>{product.description}</p>
         </div>
         <div className={productItemStyles.action}>
-            <Link to={`/item/${product.id}`}>
+            <Link to={`/item/${product.slug}`}>
                 <button>Ver detalle del Producto</button>
             </Link>
         </div>

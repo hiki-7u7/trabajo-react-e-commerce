@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 const AUTH_INITIAL_STATE = {
     isAuthenticated: 'not-authenticated',
+    // isAuthenticated: 'is-authenticating',
     user: null,
 }
 

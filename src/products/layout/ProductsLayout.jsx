@@ -11,7 +11,7 @@ import productsLayoutStyles from './products-layout.module.css';
 
 export const ProductsLayout = () => {
 
-  const { openModal, toggleOpenModal, categories } = useContext(UiContext);
+  const { openModal, toggleOpenModal } = useContext(UiContext);
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async(values) => {
@@ -27,7 +27,7 @@ export const ProductsLayout = () => {
 
   return (
     <>
-      <Navbar categories={categories}/>
+      <Navbar/>
       <div className={productsLayoutStyles['container-children']}>
         <Outlet />
       </div>

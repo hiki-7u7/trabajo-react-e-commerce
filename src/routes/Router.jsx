@@ -27,8 +27,8 @@ const Router = () => {
 
       <Route path={"/"} element={<ProductsLayout />} >
         <Route path={"/"} element={ <HomePage /> }/>
-        <Route path={"category/:id"} element={ <CategoryPage /> }/>
-        <Route path={"item/:id"} element={ <ProductDetailsPage /> }/>
+        <Route path={"category/:key"} element={ <CategoryPage /> }/>
+        <Route path={"item/:slug"} element={ <ProductDetailsPage /> }/>
         <Route path={"/cart"} element={ <CartPage /> }/>
         <Route path={"order-history"} element={ <OrderHistoryPage /> }/>
         <Route path={"*"} element={ <NotFoundPage /> }/>

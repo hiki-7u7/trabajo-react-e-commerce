@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { AuthReducer } from "../context";
 import { registerUserWithEmailPassword, loginWithEmailPassword, logoutFirebase } from '../../firebase/providers';
 
-//TODO es solo simulacion
 
 export const useAuthProvider = (initialState) => {
 

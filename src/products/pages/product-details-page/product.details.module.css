@@ -8,13 +8,16 @@
 .card {
     border: 2px solid hsl(0, 0%, 20%);
     border-radius: 10px;
-    width: 400px;
     overflow: hidden;
+}
+
+.box-loader {
+    margin: 20px;
 }
 
 .image {
     margin-top: 5px;
-    width: 100%;
+    width: 400px;
     height: 300px;
 }
 
@@ -23,6 +26,7 @@
     height: 100%;
     object-fit: contain;
 }
+
 
 .info {
     margin: 15px 0px;
@@ -103,6 +107,9 @@
 .btn-back:hover {
     background-color: hsl(0, 0%, 90%);
 }
+
+
+
 
 .footer {
     background-color: hsl(210, 100%, 45%);

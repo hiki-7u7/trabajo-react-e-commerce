@@ -1,10 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 
 import { NavLink, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
-import PropTypes from 'prop-types'
 
 
 import { Button } from '../button';
@@ -12,21 +11,27 @@ import { CartContext, CartWidget } from '../../../cart'
 import { Sidebar } from '../sidebar';
 import { UiContext } from '../../context';
 import { AuthContext } from '../../../auth/context';
+import { OrderContext } from '../../../orders/context';
+import { getCategories } from '../../helpers';
 
 
 import navbarStyles from './navbar.module.css';
-import { OrderContext } from '../../../orders/context';
 
 
-export const Navbar = ({categories}) => {
+
+export const Navbar = () => {
   
   const { showCartWidget, toggleShowCartWidget, items } = useContext(CartContext);
   const { user, logout } = useContext(AuthContext);
   const { setOrders } = useContext(OrderContext);
   const { openSidebar, toggleSidebar } = useContext(UiContext);
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([])
 
-  
+  useEffect(()=>{
+    getCategories()
+    .then( cats => setCategories(cats) )
+  },[])
 
   const itemsNum = items.length <= 0 ? undefined : `${items.length}`;
 
@@ -50,8 +55,8 @@ export const Navbar = ({categories}) => {
           </div>
 
           <nav className={navbarStyles.nav}>
-            {categories.map(({description,id}) =>  (
-              <NavLink onClick={ () => toggleShowCartWidget('close')} key={id} to={`/category/${id}`} className={({isActive}) => isActive ? navbarStyles['link-active'] : '' }>{description}</NavLink>
+            {categories.map(({description,id,key}) =>  (
+              <NavLink onClick={ () => toggleShowCartWidget('close')} key={id} to={`/category/${key}`} className={({isActive}) => isActive ? navbarStyles['link-active'] : '' }>{description}</NavLink>
             ))}
             <NavLink onClick={ () => toggleShowCartWidget('close')} key={"cart"} to={`/cart`} className={({isActive}) => isActive ? navbarStyles['link-active'] : '' }>Cart</NavLink>
           </nav>
@@ -75,8 +80,4 @@ export const Navbar = ({categories}) => {
       { openSidebar &&  <Sidebar/>} 
     </>
   )
-}
-
-Navbar.propTypes = {
-  categories: PropTypes.any
-}
+};

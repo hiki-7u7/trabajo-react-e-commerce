@@ -3,14 +3,14 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {AuthContext} from '../../context'
-import { LoginForm } from '../../../common/components';
+import { Loader, LoginForm } from '../../../common';
 
 import styles from './login-page.module.css';
 
 
 export const LoginPage = () => {
 
-  const { login } = useContext(AuthContext);
+  const { login, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate()
 
   const handleSubmit = async(values) => {
@@ -27,7 +27,11 @@ export const LoginPage = () => {
 
   return (
     <div className={styles.container}>
-        <LoginForm onSubmit={handleSubmit}/>
+        {
+          isAuthenticated === 'is-authenticating'
+          ? <Loader />
+          : <LoginForm onSubmit={handleSubmit}/>
+        }
     </div>
   )
 }

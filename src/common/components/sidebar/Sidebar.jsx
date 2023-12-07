@@ -19,7 +19,7 @@ export const Sidebar = () => {
 			<div className={`${styles.sidebar} ${ open && styles.open}`}> 
         <div className={styles.user}>
           <div className={styles.avatar}>
-            <img src="/public/images/sin-perfil.jpg" alt={user.name}/>
+            <img src="https://res.cloudinary.com/dxffoyj6v/image/upload/v1701905804/proyecto-final-e-commerce/btnpjarzfditcerb1yu7.jpg" alt={user.name}/>
           </div>
           <h3>{user.name}</h3>
         </div>
